@@ -3,59 +3,101 @@ import { useState } from 'react'
 import './css/App.css'
 import './css/index.css'
 
-function App() {
-  // const [count, setCount] = useState<number>(0)
+const FormEnum = {
+  Login: 1,
+  Registration: 2,
+  ForgotPass: 3
+} as const;
+
+
+export default function App(): React.ReactElement{
+  const [formType, setFormType] = useState<number>(FormEnum.Login);
+
   const bodyText: string = 
   `Making Money 
     Work for 
     You Starts
     With a Budget`;
 
+  function swapForm(type: number): void {
+    setFormType(type);
+  }
+
   return (
     <>
-    {/* <div className="container-login-page"> */}
       <div className="login-body-div">
         <p className="login-body-text">
-         {bodyText}
+          {bodyText}
         </p>
 
         <p className="login-app-name">Budget Stacks</p>
       </div>
 
-      <div className="login-form-div">
-        <p className="login-form-title">Login</p>
-        <form action="">
-          <input type="email" placeholder="Email" id="email"></input>
-          <input type="password" placeholder="Password" id="password"></input>
-          <button type="button" id="login-submit">Sign In</button>
-          <a href="#">New User?</a>
-          <a href="#">Forgot Password</a>
-        </form>
-      </div>
-    {/* </div> */}
-      
-
-      {/* <section id="center">
-        <div className="hero">
-          <img src={heroImg} className="base" width="170" height="179" alt="" />
-          <img src={reactLogo} className="framework" alt="React logo" />
-          <img src={viteLogo} className="vite" alt="Vite logo" />
-        </div>
-        <div>
-          <h1>Get started</h1>
-          <p>
-            Edit <code>src/App.tsx</code> and save to test <code>HMR</code>
-          </p>
-        </div>
-        <button
-          type="button"
-          className="counter"
-          onClick={() => setCount((count) => count + 1)}
-        >
-          Count is {count} */}
-     
+      <AppForm type={formType} handleClick={swapForm}/>   
     </>
   )
 }
 
-export default App
+
+interface AppFormParams {
+  /* Refers back to 'FormEnum' - which form to display */
+  type: number
+
+  /* Function for handling a click on the anchor tag*/
+  handleClick: (n: number) => void
+}
+
+function AppForm({ type, handleClick }: AppFormParams) : React.ReactElement {
+
+  let formTitle: string = "";
+  let innerForm: React.ReactElement = 
+  <>
+  </>
+
+  if(type == FormEnum.Registration) {
+    formTitle = "Sign Up";
+    innerForm = 
+    <>
+      <input type="email" placeholder="Email" id="email-signup"></input>
+      <input type="password" placeholder="Password" id="password-signup"></input>
+      <input type="password" placeholder="Confirm Password" id="confirm-signup"></input>
+      <button type="button" id="submit">Register</button>
+      <button className="link" type="button" onClick={() => handleClick(FormEnum.Login)}>Back to Login</button>
+    </>
+  }
+  else if(type == FormEnum.ForgotPass) {
+    formTitle = "Forgot Password";
+    innerForm = 
+    <>
+      <input type="email" placeholder="Email" id="email-forgot"></input>
+      <input type="password" placeholder="Recovery Code" id="recovery-code"></input>
+      <input type="password" placeholder="New Password" id="new-password"></input>
+      <input type="password" placeholder="Confirm Password" id="confirm-password"></input>
+      <button type="button" id="submit">Change Password</button>
+      <button className="link" type="button" onClick={() => handleClick(FormEnum.Login)}>Back to Login</button>
+    </>
+  }
+  else {
+    formTitle = "Login";
+    innerForm = 
+    <>
+      <input type="email" placeholder="Email" id="email-login"></input>
+      <input type="password" placeholder="Password" id="password-login"></input>
+      <button type="button" id="submit">Sign In</button>
+      <button className="link" type="button" onClick={() => handleClick(FormEnum.Registration)}>New User?</button>
+      <button className="link" type="button" onClick={() => handleClick(FormEnum.ForgotPass)}>Forgot Password</button>
+    </>
+  }
+
+
+  return (
+    <>
+      <div className="login-form-div">
+        <p className="login-form-title">{formTitle}</p>
+        <form action="">
+          {innerForm}
+        </form>
+      </div>
+    </>
+  )
+}

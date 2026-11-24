@@ -19,6 +19,8 @@
 
   --text-color: #ebeef1;
 
+  --border-radius: 8px;
+
 
   /* Shared background color for app */
   background-color: var(--bg-theme);
@@ -29,6 +31,7 @@
 div#root {
     display: flex;
     flex-direction: row;
+    flex-wrap: wrap;
     min-height: 100vh; 
     min-width: 100vw;
 }
