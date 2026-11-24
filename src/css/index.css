@@ -1,0 +1,36 @@
+/* Use 'any' selector to reset margin, padding and height behavior before other styling 
+    Note: the browser by default gives non zero margin and padding to all rendered pages. 
+*/
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+
+/* Document's root element */
+:root{
+
+  /* Global scope variables since they have been
+  defined within the root element selector */
+  --bold-theme: #2d9c8f;
+  --bg-theme: #37383a;
+  --bg-light-theme: #5c5e61;
+
+  --text-color: #ebeef1;
+
+
+  /* Shared background color for app */
+  background-color: var(--bg-theme);
+}
+
+
+/* Div which is the injection point for the React app in 'index.html'*/
+div#root {
+    display: flex;
+    flex-direction: row;
+    min-height: 100vh; 
+    min-width: 100vw;
+}
+
+
